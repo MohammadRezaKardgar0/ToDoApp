@@ -1,6 +1,7 @@
 const taskInput = document.getElementById("task-input");
 const dateInput = document.getElementById("date-input");
 const addButton = document.getElementById("add-button");
+const editButton = document.getElementById("edit-button");
 const alertMessage = document.getElementById("alert-message");
 const todosBody = document.querySelector("tbody");
 const deleteAllButton = document.getElementById("delete-all-button");
@@ -38,7 +39,7 @@ const displayTodos = () => {
     <td>${todo.date || "No date"}</td>
     <td>${todo.completed ? "Completed" : "Pending"}</td>
     <td>
-    <button>Edit</button>
+    <button onclick="editHandler('${todo.id}')">Edit</button>
     <button onclick="toggleHandler('${todo.id}')">${
       todo.completed ? "Undo" : "Do"
     }</button>
@@ -99,6 +100,14 @@ const toggleHandler = (id) => {
   saveToLocalStorage();
   displayTodos();
   showAlert("Todo status changed successfully", "success");
+};
+
+const editHandler = (id) => {
+  const todo = todos.find((todo) => todo.id === id);
+  taskInput.value = todo.task;
+  dateInput.value = todo.date;
+  addButton.style.display = "none";
+  editButton.style.display = "inline-block";
 };
 
 window.addEventListener("load", displayTodos);
